@@ -790,6 +790,95 @@ details[open] .proof-plus { transform: rotate(45deg); }
   letter-spacing: -0.02em;
 }
 
+/* ---------- type tester ---------- */
+
+.tester {
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, rgba(242, 234, 217, 0.045), rgba(242, 234, 217, 0.012) 55%, rgba(242, 234, 217, 0));
+}
+.tester .axis[hidden] { display: none; }
+
+.tester-bar {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(12px, 2vw, 24px);
+  padding: clamp(14px, 2vw, 20px) clamp(18px, 2.6vw, 34px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.tester-bar--faces { flex-wrap: wrap; gap: 10px clamp(16px, 2.4vw, 30px); }
+
+.tester-text {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  width: 100%;
+  cursor: text;
+}
+.tester-text-label {
+  flex: none;
+  color: var(--sage-dim);
+  font-size: 8.5px;
+  letter-spacing: 0.13em;
+}
+.tester-text textarea {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--bone);
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 350;
+  line-height: 1.5;
+  overflow: hidden;
+  resize: none;
+}
+.tester-text textarea::placeholder { color: var(--sage-dim); }
+
+.tester-face {
+  padding: 5px 0 4px;
+  border-bottom: 1px solid var(--line);
+  color: var(--sage);
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  transition: color 0.25s, border-color 0.25s;
+}
+.tester-face:hover { color: var(--bone); border-color: var(--marigold); }
+.tester-face[aria-pressed="true"] {
+  color: var(--marigold);
+  border-color: var(--marigold);
+}
+
+.tester-axes {
+  margin-top: 0;
+  padding-inline: clamp(18px, 2.6vw, 34px);
+  border: 0;
+  border-bottom: 1px solid var(--line-soft);
+  animation: none;
+}
+
+.tester-stage {
+  display: flex;
+  align-items: center;
+  min-height: clamp(220px, 30vw, 400px);
+  padding: clamp(22px, 3.4vw, 44px) clamp(18px, 2.6vw, 34px);
+  overflow: hidden;
+}
+.tester-output {
+  width: 100%;
+  color: var(--bone);
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+.tester-readout {
+  padding: 12px clamp(18px, 2.6vw, 34px);
+  border-top: 1px solid var(--line-soft);
+  color: var(--sage-dim);
+  font-size: 8px;
+  letter-spacing: 0.13em;
+}
+
 /* ---------- sign studies ---------- */
 
 .studies {
@@ -1173,6 +1262,12 @@ details[open] .proof-plus { transform: rotate(45deg); }
   .face--kesar .face-display { font-size: 15vw; }
   .proof-charset { font-size: 1rem; }
   .face--ledger .proof-charset { font-size: 0.8rem; }
+
+  .tester-bar { padding: 14px 18px; }
+  .tester-text { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .tester-axes { padding-inline: 18px; }
+  .tester-stage { min-height: 200px; padding: 22px 18px; }
+  .tester-readout { padding: 10px 18px; }
 
   .about-lists { grid-template-columns: 1fr; gap: 32px; }
   .client-list { grid-template-columns: 1fr 1fr; }

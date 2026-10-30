@@ -129,6 +129,142 @@
     setAxes(800 - ny * 550, 75 + nx * 25);
   });
 
+  /* ---------- type tester ---------- */
+
+  var tester = document.getElementById('tester');
+
+  if (tester) {
+    var TESTER_FACES = {
+      marginalia: {
+        label: 'Marginalia',
+        family: 'var(--font-text)',
+        style: 'normal',
+        wght: [200, 800, 350],
+        wdth: null,
+        sample: 'The quiet voice at the edge of the page.'
+      },
+      monsoon: {
+        label: 'Monsoon Grotesk',
+        family: 'var(--font-display)',
+        style: 'normal',
+        wght: [200, 800, 500],
+        wdth: [75, 100, 88],
+        sample: 'Sabarmati Line — Platform 2, 06:40.'
+      },
+      ledger: {
+        label: 'Ledger Mono',
+        family: 'var(--font-mono)',
+        style: 'normal',
+        wght: [100, 800, 400],
+        wdth: [75, 112, 100],
+        sample: 'Rs 1,24,500 — tabular figures, lakh grouping'
+      },
+      kesar: {
+        label: 'Kesar',
+        family: 'var(--font-text)',
+        style: 'italic',
+        wght: [200, 800, 300],
+        wdth: null,
+        sample: 'A festival face with a hooked terminal.'
+      }
+    };
+
+    var tEl = {
+      text: document.getElementById('testerText'),
+      out: document.getElementById('testerOutput'),
+      readout: document.getElementById('testerReadout'),
+      size: document.getElementById('testerSize'),
+      sizeOut: document.getElementById('testerSizeOut'),
+      weight: document.getElementById('testerWeight'),
+      weightOut: document.getElementById('testerWeightOut'),
+      widthRow: document.getElementById('testerWidthRow'),
+      width: document.getElementById('testerWidth'),
+      widthOut: document.getElementById('testerWidthOut'),
+      reset: document.getElementById('testerReset')
+    };
+    var faceBtns = Array.prototype.slice.call(tester.querySelectorAll('[data-face]'));
+    var faceKey = 'marginalia';
+
+    function lineHeightFor(px) {
+      if (px > 110) return 0.92;
+      if (px > 56) return 1.08;
+      if (px > 28) return 1.35;
+      return 1.6;
+    }
+
+    function growTesterText() {
+      tEl.text.style.height = 'auto';
+      tEl.text.style.height = tEl.text.scrollHeight + 'px';
+    }
+
+    function paintTester() {
+      var face = TESTER_FACES[faceKey];
+      var size = Number(tEl.size.value);
+      var wght = Number(tEl.weight.value);
+      var settings = '"wght" ' + wght;
+
+      if (face.wdth) {
+        settings += ', "wdth" ' + tEl.width.value;
+        tEl.widthOut.textContent = tEl.width.value;
+      }
+
+      tEl.out.textContent = tEl.text.value.trim() ? tEl.text.value : face.sample;
+      tEl.out.style.fontFamily = face.family;
+      tEl.out.style.fontStyle = face.style;
+      tEl.out.style.fontSize = size + 'px';
+      tEl.out.style.lineHeight = String(lineHeightFor(size));
+      tEl.out.style.fontVariationSettings = settings;
+
+      tEl.sizeOut.textContent = String(size);
+      tEl.weightOut.textContent = String(wght);
+      tEl.readout.textContent = face.label + ' — ' + size + 'px · wght ' + wght +
+        (face.wdth ? ' · wdth ' + tEl.width.value : '');
+
+      growTesterText();
+    }
+
+    function selectFace(key) {
+      var face = TESTER_FACES[key];
+      faceKey = key;
+
+      faceBtns.forEach(function (btn) {
+        btn.setAttribute('aria-pressed', String(btn.getAttribute('data-face') === key));
+      });
+
+      tEl.weight.min = String(face.wght[0]);
+      tEl.weight.max = String(face.wght[1]);
+      tEl.weight.value = String(face.wght[2]);
+
+      tEl.widthRow.hidden = !face.wdth;
+      if (face.wdth) {
+        tEl.width.min = String(face.wdth[0]);
+        tEl.width.max = String(face.wdth[1]);
+        tEl.width.value = String(face.wdth[2]);
+      }
+
+      paintTester();
+    }
+
+    faceBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        selectFace(btn.getAttribute('data-face'));
+      });
+    });
+
+    [tEl.size, tEl.weight, tEl.width].forEach(function (input) {
+      input.addEventListener('input', paintTester);
+    });
+    tEl.text.addEventListener('input', paintTester);
+
+    tEl.reset.addEventListener('click', function () {
+      tEl.size.value = '64';
+      tEl.text.value = '';
+      selectFace(faceKey);
+    });
+
+    selectFace(faceKey);
+  }
+
   /* ---------- ambient light ---------- */
 
   if (!prefersReduced.matches) {
