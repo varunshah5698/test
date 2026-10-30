@@ -1,0 +1,10 @@
+{
+  "name": "varunshah5698-test",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Static type-design portfolio. No build step; server.js only exists so a Render Web Service has a process to run.",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
